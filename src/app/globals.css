@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #1f293a;
   --foreground: #171717;
+  --r: 0.1rem;
+  --yellow: #ffef00;
+  --red: #ff0303
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +26,110 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .bg-block {
+    background: #0ef;
+    clip-path: polygon(0% 2rem,
+        0rem 2rem,
+        0rem 0%,
+        100% 0%,
+        100% 100%,
+        0% 100%,
+        0% calc(2rem + var(--r)),
+        calc(var(--r)) calc(2rem + var(--r)),
+        calc(var(--r)) calc(100% - var(--r)),
+        calc(100% - var(--r)) calc(100% - var(--r)),
+        calc(100% - var(--r)) calc(var(--r)),
+        calc(9rem + var(--r)/1.5) calc(var(--r)),
+        calc(8rem + var(--r)/1.5) calc(2rem + var(--r)),
+        0% calc(2rem + var(--r)));
+  }
+
+  .bg-info-bottom {
+    background: #0ef;
+    clip-path: polygon(0% 0%,
+        0% 100%,
+        100% 100%,
+        100% 0%,
+        calc(100% - var(--r)) 0%,
+        calc(100% - var(--r)) calc(100% - var(--r)),
+        calc(var(--r)) calc(100% - var(--r)),
+        calc(var(--r)) 0%);
+  }
+
+  .bg-info-title-start {
+    background: #0ef;
+    clip-path: polygon(1rem 0%,
+        100% 0%,
+        100% calc(var(--r)),
+        calc(100% - 1rem) 100%,
+        0% 100%);
+  }
+
+  .bg-info-title-end {
+    background: #0ef;
+    clip-path: polygon(0% 0%,
+        100% 0%,
+        100% 100%,
+        calc(100% - var(--r)) 100%,
+        calc(100% - var(--r)) calc(var(--r)),
+        0% calc(var(--r)));
+  }
+
+  .bg-no-signal {
+    background:
+      repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60%/3000px 3000px,
+      repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 40% 40%/3000px 3000px;
+    background-blend-mode: difference;
+    animation: b .2s infinite alternate;
+  }
+
+  .bg-permission-line {
+    background: linear-gradient(to right, var(--yellow) 4px, transparent 4px) 0 0,
+      linear-gradient(to right, var(--yellow) 4px, transparent 4px) 0 100%,
+      linear-gradient(to left, var(--yellow) 4px, transparent 4px) 100% 0,
+      linear-gradient(to left, var(--yellow) 4px, transparent 4px) 100% 100%,
+      linear-gradient(to bottom, var(--yellow) 4px, transparent 4px) 0 0,
+      linear-gradient(to bottom, var(--yellow) 4px, transparent 4px) 100% 0,
+      linear-gradient(to top, var(--yellow) 4px, transparent 4px) 0 100%,
+      linear-gradient(to top, var(--yellow) 4px, transparent 4px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+  }
+
+}
+
+@keyframes flickerBgAnimation {
+
+  /* rgb(255,239,0) */
+  0% {
+    background: rgba(255, 247, 20, 0.1);
+  }
+
+  50% {
+    background: rgba(255, 247, 20, 0.3);
+  }
+
+  100% {
+    background: rgba(255, 230, 80, 0.1);
+  }
+}
+
+@keyframes b {
+  100% {
+    background-position: 50% 0, 60% 50%
+  }
+}
+
+@keyframes blink-1 {
+
+  50% {
+    opacity: 0.9;
+  }
+
+  0%,
+  100% {
+    opacity: 0.1;
   }
 }

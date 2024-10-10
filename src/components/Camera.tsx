@@ -1,0 +1,99 @@
+
+import { useEffect, useRef } from "react";
+import styles from './icons.module.css'
+
+export default function Camera(
+    {
+        className = "",
+        src,
+        permission,
+        onPersmissionAsk
+    }: {
+        className?: String,
+        src: MediaStream | undefined,
+        permission: PermissionState | null,
+        onPersmissionAsk: () => void
+
+    }
+) {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        console.log('use effect start')
+        console.log('src = ', src, ' ref = ', videoRef)
+        if (src === null) return
+        if (videoRef === null) return
+        const currRef = videoRef.current
+        if (currRef === null) return
+        currRef.srcObject = src
+        console.log('use effect end')
+    }, [src, videoRef, videoRef?.current])
+
+    const hasVideo = permission === 'granted'
+
+    const noPermissionLine = () => {
+        const space = '\xa0'.repeat(40)
+        return (
+            <div className="mb-6 w-full h-fit self-end">
+                <div className={`cursor-pointer`} onClick={onPersmissionAsk}>
+                    <div className="bg-black opacity-65 px-6 py-4 my-4 rounded-md text-lg flex items-center mx-auto w-fit">
+                        <svg viewBox="0 0 24 24" className="text-warning w-fit h-5 sm:w-5 sm:h-5 mr-3">
+                            <path fill="currentColor"
+                                d="M23.119,20,13.772,2.15h0a2,2,0,0,0-3.543,0L.881,20a2,2,0,0,0,1.772,2.928H21.347A2,2,0,0,0,23.119,20ZM11,8.423a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h-.028a1.528,1.528,0,0,1-1.522-1.47,1.476,1.476,0,0,1,1.448-1.53h.028A1.527,1.527,0,0,1,13.5,18.4,1.475,1.475,0,0,1,12.05,19.933Z">
+                            </path>
+                        </svg>
+                        <span className="text-warning">
+                            Ask Permission
+                        </span>
+                    </div>
+                </div>
+                <div className="w-fit h-fit bg-black opacity-65">
+                    <div className="bg-permission-line w-full h-fit self-end uppercase">
+                        <marquee
+                            className="text-warning  w-full h-fit translate-y-1"
+                            behavior="scroll"
+                            direction="left"
+                            scrollamount="25">Attention !{space}Attention ! {space}Permission is not granted ! {space}Permission is not granted! {space}Repeat ! {space}Permission is not granted ! {space}Permission is not granted !
+                        </marquee>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    const permissionBlockedLine = () => {
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-full uppercase">
+                <div className="w-fit h-fit relative flex">
+                    <div className="cross w-1/3 h-1/3" />
+                </div>
+                <p className="text-error">
+                    Permission denied
+                </p>
+            </div>
+        )
+    }
+
+    const noVideo = () => {
+        const infoLine = permission == 'denied' ? permissionBlockedLine() : noPermissionLine()
+        return (
+            <div className="bg-no-signal w-full h-full flex">
+                {infoLine}
+            </div>
+        )
+    }
+
+    return (
+        <div
+            className={`${className} aspect-video w-full`}
+        >
+
+            {hasVideo ?
+                <video
+                    className="w-full"
+                    ref={videoRef}
+                    autoPlay
+                /> : noVideo()}
+        </div>
+    );
+}
