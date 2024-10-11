@@ -6,23 +6,24 @@ import { useState, useEffect } from "react";
 import VideoInfo from "@/components/VideoInfo";
 import Title from "@/components/Title";
 import AudioInfo from "@/components/AudioInfo";
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 
-const DynamicComponentWithNoSSR = dynamic(
-  () => import('@/components/Camera'),
-  { ssr: false }
-)
+// const DynamicComponentWithNoSSR = dynamic(
+//   () => import('@/components/Camera'),
+//   { ssr: false }
+// )
 
 export default function Home() {
   const [permissionStatus, setPermissionStatus] = useState<PermissionState | null>(null)
   const [video, setVideo] = useState<MediaStream | undefined>()
-  const [counter, setCounter] = useState(0)
+  // const [counter, setCounter] = useState(0)
   const cameraInfo = useCameraInfo()
   const audioInfo = useAudioInfo()
 
-  const onPermissionAsk = () => {
-    setCounter(counter + 1)
-  }
+  console.log('video: ',video, 'permission: ', permissionStatus)
+  // const onPermissionAsk = () => {
+  //   setCounter(counter + 1)
+  // }
 
   useEffect(
     () => {
@@ -51,7 +52,7 @@ export default function Home() {
         }
       }
       asyncRequest()
-    }, [counter]
+    }, []
   )
 
   return (
