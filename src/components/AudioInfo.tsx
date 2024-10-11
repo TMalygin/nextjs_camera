@@ -1,4 +1,4 @@
-import { AudioInfo } from "@/hooks/Camera"
+import { AudioDeviceInfo } from "@/hooks/Camera"
 import InfoBlock from "./InfoBlock"
 
 export default function AudioInfo(
@@ -6,8 +6,8 @@ export default function AudioInfo(
         className = "",
         audioInfo
     }: {
-        className?: String,
-        audioInfo: AudioInfo | undefined
+        className?: string,
+        audioInfo: AudioDeviceInfo | undefined
     }
 
 ) {

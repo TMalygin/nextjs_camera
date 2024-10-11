@@ -6,8 +6,8 @@ export default function InfoBlock(
         title,
         children
     }: {
-        className?: String,
-        title: String,
+        className?: string,
+        title: string,
         children: ReactNode
     }
 ) {

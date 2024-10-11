@@ -3,7 +3,7 @@ export default function Title(
     {
         className
     }: {
-        className?: String
+        className?: string
     }
 ) {
 

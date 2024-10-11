@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 
-export type CameraStatus = {
-    Error?: String,
-    Info?: {}
-}
-
 function getPermission(): Permissions | null {
     if (navigator === undefined || navigator === null) {
         console.error('navigation is not found!')
         return null
     }
-    var permissions = navigator.permissions
+    const permissions = navigator.permissions
     if (permissions === undefined || permissions === null) {
         console.error('field permissions is not found!')
         return null
@@ -19,8 +14,9 @@ function getPermission(): Permissions | null {
 }
 
 export async function getPermissionStatus(): Promise<PermissionState | null> {
-    var permissions = getPermission()
-    var status = await permissions?.query({ name: "camera" })
+    const permissions = getPermission()
+    // @ts-expect-error camera is part of the PermissionDescriptor
+    const status = await permissions?.query({ name: "camera" })
     return status?.state ?? null
 }
 
@@ -29,7 +25,7 @@ function mediaDevices(): MediaDevices | null {
         console.error('navigation is not found!')
         return null;
     }
-    var mediaDevices = navigator.mediaDevices
+    const mediaDevices = navigator.mediaDevices
     if (mediaDevices === undefined || mediaDevices === null) {
         console.error('medaDevices are not found!')
         return null;
@@ -44,7 +40,7 @@ export async function getListOfCameras(): Promise<Array<MediaDeviceInfo>> {
 }
 
 export function useCamera(): MediaStream | undefined {
-    var [camera, setCamera] = useState<MediaStream | undefined>(undefined)
+    const [camera, setCamera] = useState<MediaStream | undefined>(undefined)
 
     useEffect(() => {
         mediaDevices()?.getUserMedia(
@@ -70,17 +66,17 @@ export function getCamera(): Promise<MediaStream> | undefined {
 }
 
 export type CameraInfo = {
-    title: String
-    id: String
+    title: string
+    id: string
 }
 
-export type AudioInfo = {
-    title: String
-    id: String
+export type AudioDeviceInfo = {
+    title: string
+    id: string
 }
 
 export function useCameraInfo(): CameraInfo | undefined {
-    var [cameraInfo, setCameraInfo] = useState<CameraInfo | undefined>(undefined)
+    const [cameraInfo, setCameraInfo] = useState<CameraInfo | undefined>(undefined)
     mediaDevices()?.enumerateDevices()
         .then((devices) => devices.find((info: MediaDeviceInfo) => info.kind === 'videoinput'))
         .then((device: MediaDeviceInfo | undefined) => {
@@ -96,13 +92,13 @@ export function useCameraInfo(): CameraInfo | undefined {
     return cameraInfo
 }
 
-export function useAudioInfo(): AudioInfo | undefined {
-    var [audioInfo, setAudioInfo] = useState<AudioInfo | undefined>(undefined)
+export function useAudioInfo(): AudioDeviceInfo | undefined {
+    const [audioInfo, setAudioInfo] = useState<AudioDeviceInfo | undefined>(undefined)
     mediaDevices()?.enumerateDevices()
         .then((devices) => devices.find((info: MediaDeviceInfo) => info.kind === 'audioinput'))
         .then((device: MediaDeviceInfo | undefined) => {
             if (device !== undefined && device.label !== undefined && device.label !== '') {
-                const camInfo: AudioInfo = {
+                const camInfo: AudioDeviceInfo = {
                     title: device.label,
                     id: device.deviceId
                 }

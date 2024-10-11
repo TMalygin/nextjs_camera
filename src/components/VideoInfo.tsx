@@ -6,7 +6,7 @@ export default function VideoInfo(
         className = "",
         cameraInfo
     }: {
-        className?: String,
+        className?: string,
         cameraInfo: CameraInfo | undefined
     }
 

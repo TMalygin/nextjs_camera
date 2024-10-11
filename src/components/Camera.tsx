@@ -1,6 +1,5 @@
 
 import { useEffect, useRef } from "react";
-import styles from './icons.module.css'
 
 export default function Camera(
     {
@@ -9,7 +8,7 @@ export default function Camera(
         permission,
         onPersmissionAsk
     }: {
-        className?: String,
+        className?: string,
         src: MediaStream | undefined,
         permission: PermissionState | null,
         onPersmissionAsk: () => void
@@ -23,18 +22,22 @@ export default function Camera(
         console.log('src = ', src, ' ref = ', videoRef)
         if (src === null) return
         if (videoRef === null) return
-        const currRef = videoRef.current
+        /* eslint-disable */
+        const currRef: any = videoRef.current
+        /* eslint-enable */
         if (currRef === null) return
-        currRef.srcObject = src
+        if ('srcObject' in currRef) {
+            currRef.srcObject = src
+        }
         console.log('use effect end')
-    }, [src, videoRef, videoRef?.current])
+    }, [src, videoRef])
 
     const hasVideo = permission === 'granted'
 
     const noPermissionLine = () => {
-        const space = '\xa0'.repeat(40)
+        // const space = '\xa0'.repeat(40)
         return (
-            <div className="mb-6 w-full h-fit self-end">
+            <div className="mb-6 w-full relative h-fit self-end">
                 <div className={`cursor-pointer`} onClick={onPersmissionAsk}>
                     <div className="bg-black opacity-65 px-6 py-4 my-4 rounded-md text-lg flex items-center mx-auto w-fit">
                         <svg viewBox="0 0 24 24" className="text-warning w-fit h-5 sm:w-5 sm:h-5 mr-3">
@@ -47,15 +50,16 @@ export default function Camera(
                         </span>
                     </div>
                 </div>
-                <div className="w-fit h-fit bg-black opacity-65">
-                    <div className="bg-permission-line w-full h-fit self-end uppercase">
-                        <marquee
-                            className="text-warning  w-full h-fit translate-y-1"
-                            behavior="scroll"
-                            direction="left"
-                            scrollamount="25">Attention !{space}Attention ! {space}Permission is not granted ! {space}Permission is not granted! {space}Repeat ! {space}Permission is not granted ! {space}Permission is not granted !
-                        </marquee>
-                    </div>
+                <div className="w-1/2 h-fit bg-black opacity-65 relative">
+                    {/* <div className="bg-permission-line relative w-1/2 h-fit self-end uppercase">
+                        <Marquee
+                            className="text-warning relative w-1/2 h-fit translate-y-1"
+                            speed={25}
+                            loop={0}
+                            play>
+                            Attention !{space}Attention ! {space}Permission is not granted !
+                        </Marquee>
+                    </div> */}
                 </div>
             </div>
         )

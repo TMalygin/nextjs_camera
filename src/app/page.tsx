@@ -1,8 +1,7 @@
 'use client'
 
-import Image from "next/image";
-import { CameraStatus, useCameraInfo, getPermissionStatus, useCamera, getCamera, useAudioInfo } from "@/hooks/Camera";
-import { useState, useRef, useEffect } from "react";
+import { useCameraInfo, getPermissionStatus, getCamera, useAudioInfo } from "@/hooks/Camera";
+import { useState, useEffect } from "react";
 import Camera from "@/components/Camera";
 import VideoInfo from "@/components/VideoInfo";
 import Title from "@/components/Title";
@@ -62,7 +61,7 @@ export default function Home() {
         >
           <VideoInfo className='w-1/4' cameraInfo={cameraInfo} />
           <Camera
-            className={"max-w-1/2 min-w-1/2 "}
+            className={"max-w-1/2 min-w-1/2"}
             src={video}
             permission={permissionStatus}
             onPersmissionAsk={onPermissionAsk}
