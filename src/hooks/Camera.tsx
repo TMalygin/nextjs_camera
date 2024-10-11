@@ -34,9 +34,9 @@ function mediaDevices(): MediaDevices | null {
 }
 
 export async function getListOfCameras(): Promise<Array<MediaDeviceInfo>> {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const cameras = devices.filter((device) => device.kind === 'videoinput');
-    return cameras;
+    const devices = await mediaDevices()?.enumerateDevices();
+    const cameras = devices?.filter((device) => device.kind === 'videoinput');
+    return cameras ?? [];
 }
 
 export function useCamera(): MediaStream | undefined {
