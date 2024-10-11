@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from "react";
 
 function getPermission(): Permissions | null {
@@ -27,7 +28,6 @@ function mediaDevices(): MediaDevices | null {
     }
     const mediaDevices = navigator.mediaDevices
     if (mediaDevices === undefined || mediaDevices === null) {
-        console.error('medaDevices are not found!')
         return null;
     }
     return mediaDevices
