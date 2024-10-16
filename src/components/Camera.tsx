@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function Camera(
     {
@@ -15,22 +15,24 @@ export default function Camera(
 
     }
 ) {
-    const videoRef = useRef(null);
+    const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
 
     useEffect(() => {
         console.log('use effect start')
         console.log('src = ', src, ' ref = ', videoRef)
-        if (src === null) return
+        if (src === null || src === undefined) return
         if (videoRef === null) return
-        /* eslint-disable */
-        const currRef: any = videoRef.current
-        /* eslint-enable */
-        if (currRef === null) return
-        if ('srcObject' in currRef) {
-            currRef.srcObject = src
+        if ('srcObject' in videoRef) {
+            videoRef.srcObject = src
         }
         console.log('use effect end')
     }, [src, videoRef])
+
+    const videoRefListener = (videoRef: HTMLVideoElement | null) => {
+        if (videoRef != null) {
+            setVideoRef(videoRef)
+        }
+    }
 
     const hasVideo = permission === 'granted'
 
@@ -87,17 +89,22 @@ export default function Camera(
         )
     }
 
+    const video = () => {
+        return (
+            <video
+                className="w-full"
+                ref={videoRefListener}
+                autoPlay
+            >
+                <p className="text-error text-6xl border bg-black rounded">Your browser does not support the video tag.</p>
+            </video>
+        )
+    }
     return (
         <div
             className={`${className} aspect-video w-full`}
         >
-
-            {hasVideo ?
-                <video
-                    className="w-full"
-                    ref={videoRef}
-                    autoPlay
-                /> : noVideo()}
+            {hasVideo ? video() : noVideo()}
         </div>
     );
 }
