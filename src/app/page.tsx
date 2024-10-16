@@ -5,12 +5,7 @@ import { useState, useEffect } from "react";
 import VideoInfo from "@/components/VideoInfo";
 import Title from "@/components/Title";
 import AudioInfo from "@/components/AudioInfo";
-import dynamic from 'next/dynamic'
-
-const DynamicComponentWithNoSSR = dynamic(
-  () => import('@/components/Camera'),
-  { ssr: false }
-)
+import Camera from "@/components/Camera";
 
 export default function Home() {
   const [permissionStatus, setPermissionStatus] = useState<PermissionState | null>(null)
@@ -65,7 +60,7 @@ export default function Home() {
           className="flex flex-row w-full items-stretch justify-center justify-items-center gap-8 "
         >
           <VideoInfo className='w-1/4' cameraInfo={cameraInfo} />
-          <DynamicComponentWithNoSSR
+          <Camera
             className={"max-w-1/2 min-w-1/2"}
             src={video}
             permission={permissionStatus}

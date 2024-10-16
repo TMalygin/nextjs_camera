@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 
 function getPermission(): Permissions | null {
+    if (typeof window === 'undefined') {
+        return null;
+    }
     if (navigator === undefined || navigator === null) {
         console.error('navigation is not found!')
         return null
@@ -22,6 +25,9 @@ export async function getPermissionStatus(): Promise<PermissionState | null> {
 }
 
 function mediaDevices(): MediaDevices | null {
+    if (typeof window === 'undefined') {
+        return null
+    }
     if (navigator === undefined || navigator === null) {
         console.error('navigation is not found!')
         return null;
